@@ -1,0 +1,17 @@
+What functionalities we should be working:
+
+Create a user profile
+    - generate invite codes
+    - validate invite codes
+Creating a post
+Viewing our posts
+Editing existing posts
+Comments for posts
+Friends functionality
+Viewing profile
+View feed of friends
+Editing user profile
+
+
+What we need to do now:
+Determine our schemas for the database
