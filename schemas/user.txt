@@ -1,0 +1,21 @@
+The user table will have the following attributes:
+
+id                PRIMARY KEY AUTO
+username          VARCHAR(100)
+password          HASH - VARCHAR(?)
+email_address     VARCHAR(200)
+first_name        VARCHAR(50)
+last_name         VARCHAR(100)
+dob               CHAR(10)
+gender            CHAR(1) [M/F]
+profile_pic_url   VARCHAR(?)
+opt_in_research   CHAR(1) [T/F]
+bio               VARCHAR(320)
+
+The questionnaire_results table will have these attributes:
+id                PRIMARY KEY AUTO
+user_id           FOREIGN KEY references user.id
+answer_1          VARCHAR(?)
+answer_2          VARCHAR(?)
+.....
+answer_n          VARCHAR(?)
