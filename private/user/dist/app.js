@@ -12,3 +12,5 @@ app.listen(3000);
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.post("/api/user/create", user.createUser);
+
+app.post("/api/user/login", user.login);

@@ -18,3 +18,6 @@ INSERT INTO user
 (username, password, email, first_name, last_name, dob, gender, opt_in) 
 VALUES("mdesilva", "$2b$10$3euPcmQFCiblsZeEu5s7p.9OVHgeHWFDk9nhMqZ0m/3pd/lhwZgES", 
 "mdesilva@bu.edu", "Manuja", "DeSilva", "01/03/1998", "M", "N");
+
+/* SQL query to delete record */
+DELETE FROM user WHERE id=?
