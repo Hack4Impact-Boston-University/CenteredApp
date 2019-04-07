@@ -1,0 +1,1 @@
+This folder will contain all the backend infrastructure for the project.
