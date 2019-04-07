@@ -26,6 +26,8 @@ Create a user in our database. POST request must have the following data items i
 
 Successful registrations will return a 200 status code.
 
+---
+
 `POST "api/user/login"`
 
 Login a user. POST request must have the username and password in its body.
