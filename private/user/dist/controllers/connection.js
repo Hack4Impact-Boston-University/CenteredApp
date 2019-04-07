@@ -1,12 +1,13 @@
 //Initialize connection
 var mysql = require('mysql');
+const db = require("./db-config.js")
 
 connection = mysql.createConnection({
-    host: 'centered-db.ceni7m6kai0v.us-east-2.rds.amazonaws.com',
-    port: '3306',
-    user: 'mdesilva',
-    password: 'hack4impact',
-    database: 'centered'
+    host: db.host,
+    port: db.port,
+    user: db.user,
+    password: db.password,
+    database: db.database
 });
 
 connection.connect(function(err){
