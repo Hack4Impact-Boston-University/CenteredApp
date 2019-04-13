@@ -14,9 +14,6 @@ connection.connect(function(err){
     if(err){
         console.error("Error connecting: " + err.stack)
     }
-    else{
-        console.log("Connected successfully");
-    }
 });
 
 module.exports = connection;

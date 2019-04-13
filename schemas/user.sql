@@ -1,7 +1,6 @@
 /* SQL query to create the user relation */
 CREATE TABLE user(
-    id int unsigned not null auto_increment primary key, 
-    username VARCHAR(255) not null, 
+    username VARCHAR(255) not null primary key, 
     password BINARY(60) not null, 
     email VARCHAR(200) not null, 
     first_name VARCHAR(100) not null, 
@@ -11,7 +10,9 @@ CREATE TABLE user(
     opt_in CHAR(1),
     bio VARCHAR(320)
 )
-
+/*
+In this scheme the username must be unique. However, you can have one email address linked to multiple accounts in this schema 
+*/
 
 /* SQL query to create new record in the user relation */
 INSERT INTO user 
@@ -21,3 +22,4 @@ VALUES("mdesilva", "$2b$10$3euPcmQFCiblsZeEu5s7p.9OVHgeHWFDk9nhMqZ0m/3pd/lhwZgES
 
 /* SQL query to delete record */
 DELETE FROM user WHERE id=?
+/* TODO: May need to make the email the primary key */
