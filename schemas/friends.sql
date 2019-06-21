@@ -16,7 +16,7 @@ Statuses:
 
 
 When user1 requests to be friends with user2, 
-create a tuple in the table where user2 is the requestee, user1 is the requested,
+create a tuple in the table where user1 is the requestee, user2 is the requested,
 status is 0, and date is current date.
 
 To get all friends of a user, do a union of select queries that

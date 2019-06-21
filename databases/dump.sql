@@ -14,7 +14,7 @@
 -- Current Database: "centered"
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ "centered" /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ "centered" /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 USE "centered";
 
