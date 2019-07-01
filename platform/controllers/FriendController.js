@@ -1,4 +1,7 @@
-const database = require("./user/dist/controllers/connection");
+const database = require("./user/controllers/connection");
+
+//@Todo: Rename file to UserController
+//Explore option of using typescript for this project
 
 //DEPRECATED: Switching to object oriented approach
 function requestFriend(req,res){

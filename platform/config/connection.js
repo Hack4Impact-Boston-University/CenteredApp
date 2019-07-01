@@ -1,6 +1,6 @@
 //Initialize connection
 var mysql = require('mysql');
-const db = require("./db-config.js")
+const db = require("./db-config.js.js.js")
 
 connection = mysql.createConnection({
     host: db.host,

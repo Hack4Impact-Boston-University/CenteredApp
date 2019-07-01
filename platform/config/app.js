@@ -6,7 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 const user = require("./controllers/user.js");
-const registration = require("./controllers/registration.js");
+const registration = require("../controllers/RegistrationController.js/index.js");
 
 app.listen(3000);
 
