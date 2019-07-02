@@ -21,6 +21,22 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.4.2"
+    "typescript": "^3.4.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
   }
+  "scripts": {
+  "build": "webpack --mode production"
+}
+"babel": {
+    "presets": [
+        [
+          "env",
+          {
+            "modules": false
+          }
+        ],
+        "react"
+    ]
+}
 }
