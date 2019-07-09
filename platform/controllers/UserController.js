@@ -1,4 +1,4 @@
-const connection = require('./connection.js');
+const connection = require('../config/connection.js');
 const bcrypt = require('bcrypt');
 
 const saltRounds = 10; //# of times to salt a given password using bcrypt
@@ -87,7 +87,7 @@ module.exports.login = function(req,res){
             const hashedPasswordBinary = results[0].password
             const hashedPassword = hashedPasswordBinary.toString('utf8');
             //we store our passwords in our database as binary, 
-            //so we have to use the to string method with the utf8 encoding to get it back to its1 string format
+            //so we have to use the to string method with the utf8 encoding to get it back to its string format
             bcrypt.compare(user.password, hashedPassword).then(function(verified){
                 if(verified==true){
                     res.json({status: 200, response: "User verified"});

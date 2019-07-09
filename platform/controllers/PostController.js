@@ -1,21 +1,23 @@
-var express = require('express');
-var connection = require('../db');
-var router = express.Router();
+var connection = require('../config/connection');
 
-router.post('/', isLoggedIn, function(req, res, next) {
+module.exports.createPost = function(req,res){
     var putInfo = {
         title: req.body.title,
         body: req.body.body,
         username: req.body.username,
-        attachments: req.body.attachments
     };
     connection.query("INSERT INTO post SET ?", putInfo, function(err, result){
         if (err) throw err;
         console.log('Last insert ID:', result.insertId);
         res.sendStatus(201);
     });
-});
+}
 
+/*
+router.post('/', isLoggedIn, function(req, res, next) {
+});
+*/
+/*
 router.get('/', function(req, res, next) {
     var allq = "SELECT * FROM post ORDER BY createdAt Desc;";
     connection.query(allq, function(err, results){
@@ -107,3 +109,4 @@ function checkPostOwner(req, res, next) {
 }
 
 module.exports = router;
+*/

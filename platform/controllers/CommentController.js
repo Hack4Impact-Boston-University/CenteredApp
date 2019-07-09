@@ -2,6 +2,8 @@ var express = require('express');
 var connection = require('../db');
 var router = express.Router({mergeParams: true});
 
+
+//TODO: Correct the route urls for the following urls.s
 router.post('/', isLoggedIn, function(req, res, next) {
     var putInfo = {
         content: req.body.comment,

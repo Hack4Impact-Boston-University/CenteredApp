@@ -1,4 +1,4 @@
-const connection = require("../../connection.js/index.js");
+const connection = require("../config/connection.js");
 
 function getRandomInt(max){
     /*
