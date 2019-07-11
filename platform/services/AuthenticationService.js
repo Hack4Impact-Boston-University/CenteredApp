@@ -1,5 +1,6 @@
 const uuid = require("uuid/v4");
 const bcrypt = require('bcrypt');
+const connection = require('../config/connection');
 
 function verifyUser(username,password){
     const query = "SELECT password FROM user WHERE username=?";
@@ -32,28 +33,27 @@ function login(req,res){
     }
 }
 
+/*
+Generate unique session cookie, 
+pair it with the user in a sessions table in the database,
+return cookie.
+*/
 function serializeUser(username) {
-    /*
-    Generate unique session cookie, 
-    pair it with the user in a sessions table in the database,
-    return cookie.
-    */
    const newSessionId = uuid();
-   const expiration = new Date();
-   //TODO: add expiry to cookie and 
-   const insertSessionQuery = "INSERT INTO sessions(username,id) values(?,?)";
-   connection.query(insertSessionQuery, [username,newSessionId], function(err,results){
+   const expiration = new Date().getTime() + 864000000 // Expiration is the current time + 10 days from the current time
+   const insertSessionQuery = "INSERT INTO sessions(username,id,expiration) values(?,?,?)";
+   connection.query(insertSessionQuery, [username,newSessionId,expiration], function(err,results){
        if(err){
-           //TODO: Throw a server error here
-       }
-       else{
-           return [newSessionId,expiration];
+           console.log("Error");
+           return err;
+       } else{
+           console.log("Retrieved user");
+           return {id: newSessionId, expiration:expiration};
        }
    })
 }
 
 
-}
 function deserializeUser(){
 /* 
 Get the user's cookie, 
@@ -63,5 +63,6 @@ pass their username into the req object
 }
 
 module.exports = {
-    login: login
+    login: login,
+    serializeUser: serializeUser
 }

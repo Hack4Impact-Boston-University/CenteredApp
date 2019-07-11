@@ -37,8 +37,3 @@ app.post("/user/create", userController.createUser);
 app.post("/post/create", postController.createPost);
 
 app.post("/user/login", authenticationService.login);
-
-app.get("/testCookies", function(req,res){
-    res.cookie("secretSnack", "cookie");
-    res.send("Cookie was sent");
-})
