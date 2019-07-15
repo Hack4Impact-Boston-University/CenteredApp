@@ -1,0 +1,324 @@
+#profilebackground {
+  padding: 40px;
+  background: url(../img/water.jpg) no-repeat;
+  background-size: cover;
+}
+
+#friendsearch{
+  width:80%;
+}
+
+#friendlist{
+  max-height:90%;
+}
+
+#background{
+  position:absolute;
+  top:50;
+  left:0;
+  float:left;
+  z-index:-10;
+  width: 80%;
+  height: auto;
+}
+
+#profilebackground .jumbotron {
+  border: 5px solid purple;
+  display: block;
+  padding: 15px;
+  margin: 0px;
+  border-radius: 0;
+  background-color: lightblue;
+  width: 270px;
+}
+
+#profilepic {
+  width: 150px;
+  border-radius: 4%;
+  /*border: 2px solid black;*/
+  /*background-color: rgb(173,216,230);*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#profilehead {
+  /*background-color: rgb(173,216,230);*/
+  border-radius: 10px;
+  padding: 10px;
+  left: 0;
+}
+
+@media (min-width: 992px) {
+  #profiledet {
+    left: 35px;
+  }
+}
+
+@media (min-width: 768px) {
+  #profiledet {
+    left: 75px;
+  }
+}
+
+@media (min-width: 576px) {
+  #profiledet {
+    left: 100px;
+  }
+}
+
+@media (min-width: 300px) {
+  #profilepic {
+    left: 0;
+    margin-left: 0;
+  }
+}
+
+#bio {
+  float: left;
+  width: 16%;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 0px;
+}
+
+#avatar {
+  width: 160px;
+  border-radius: 50%;
+  border: 5px solid black;
+}
+
+#posts {
+  float: left;
+  width: 62%;
+  padding: 3px;
+  left: 3px;
+  margin: 5px;
+  border-radius: 0px;
+}
+
+#posts > h1 {
+  margin:auto;
+}
+
+#navb{
+  position:fixed;
+  color:lightblue;
+  border-bottom: 5px solid red;
+  z-index:10;
+}
+
+#friends {
+  float: right;
+  height: 100%;
+  position: fixed;
+  width: 20%;
+  top: 0px;
+  border-radius: 0px;
+  left: 80%;
+  overflow-x: hidden;
+  padding: 5px;
+  padding-top: 20px;
+  display: block;
+}
+
+#makepost{
+  float: left;
+  height: 40%;
+  position: fixed;
+  width: 20%;
+  top: 60%;
+  border-radius: 0px;
+  left: 80%;
+  overflow-x: hidden;
+  padding: 5px;
+  padding-top: 20px;
+  display: block;
+  max-width: 16%;
+}
+
+#makepostbutton{
+  top:10%
+}
+
+/*
+#makepost{
+  float: left;
+  height: 30%;
+  position: fixed;
+  width: 20%;
+  top: 70%;
+  border-radius: 0px;
+  left: 80%;
+  overflow-x: hidden;
+  padding: 5px;
+  padding-top: 20px;
+  display: block;
+}
+
+#makepost > form {
+  float: left;
+  height: 30%;
+  position: fixed;
+  width: 20%;
+  top: 70%;
+  border-radius: 0px;
+  left: 80%;
+  overflow-x: hidden;
+  padding: 5px;
+  padding-top: 20px;
+  display: block;
+}
+*/
+
+.profilepicture {
+  width: 160px;
+  border-radius: 50%;
+  border: 5px solid black;
+}
+
+.friendpicture {
+  width: 40px;
+  border-radius: 50%;
+  padding: 0;
+  /*border: 5px solid black;*/
+}
+
+#profilepicture {
+  width: 220px;
+  border-radius: 50%;
+  border: 5px solid purple;
+  margin: 0 auto;
+  display: block;
+}
+
+
+body {
+  background-color: lightblue;
+  margin: 0 auto;
+}
+
+#profiledet .p {
+  margin-bottom: 0;
+  padding: 0;
+  border: 0;
+}
+
+#post > p {
+  padding: 5px;
+  background-color: lightblue;
+  border-radius: 8px;
+}
+
+
+#post > img {
+  width: 80px;
+}
+
+span {
+  float: right;
+}
+
+#profiledet > p {
+  margin: 0;
+}
+
+.jumbotron > p {
+  margin: 0;
+}
+
+#profilebackground .jumbotron > div {
+  background-color: lightblue;
+  border-radius: 8px;
+  padding: 0;
+  /*border: 5px solid purple;*/
+}
+
+#profilebackground .jumbotron > div > p {
+  margin: 0;
+  padding: 0;
+}
+
+
+.col-md-7.offset-md-0 > .h1, h1 {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.col-md-7.offset-md-0 {
+  vertical-align: middle;
+}
+
+p {
+  margin: 0;
+}
+
+
+.col-md-5 {
+  display: block;
+  text-align: center;
+  margin: 0;
+}
+
+div {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+  float: bottom;
+}
+
+.h1, h1 {
+  text-align: center;
+}
+
+#post {
+  margin: 5px;
+}
+
+#makepost {
+  float: left;
+  width: 54%;
+  padding: 10px;
+  left: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 0px;
+}
+
+@media (max-width: 768px) {
+  #bio {
+    width: 98%;
+    padding: 5px;
+    text-align: center;
+  }
+}
+
+.col-12.col-md-12.col-xl-12 {
+  margin: 0 auto;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  #friends {
+    float: none;
+    left: 0;
+    width: 98%;
+    margin: 5px;
+    height: initial;
+    position: relative;
+  }
+}
+
+@media (max-width: 768px) {
+  #posts {
+    width: 98%;
+  }
+}
+
+#friends > h1 {
+  padding-bottom: 10px;
+}
+

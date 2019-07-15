@@ -1,6 +1,6 @@
 #profilebackground {
   padding: 40px;
-  background: url(../../assets/img/water.jpg) no-repeat;
+  background: 'water.jpg' no-repeat;
   background-size: cover;
 }
 
@@ -114,8 +114,6 @@
   display: block;
 }
 
-#bio .p {
-}
 
 body {
   background-color: lightblue;
@@ -134,8 +132,6 @@ body {
   border-radius: 8px;
 }
 
-img {
-}
 
 #post > img {
   width: 80px;
@@ -165,8 +161,6 @@ span {
   padding: 0;
 }
 
-.row > col-md-5 {
-}
 
 .col-md-7.offset-md-0 > .h1, h1 {
   margin: 0;
@@ -181,8 +175,6 @@ p {
   margin: 0;
 }
 
-.row.vdivide {
-}
 
 .col-md-5 {
   display: block;
