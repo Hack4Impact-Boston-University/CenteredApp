@@ -4,7 +4,7 @@ module.exports.createPost = function(req,res){
     var putInfo = {
         title: req.body.title,
         body: req.body.body,
-        username: req.body.username,
+        username: req.user.username //TODO: verify that user is set
     };
     connection.query("INSERT INTO post SET ?", putInfo, function(err, result){
         if (err) throw err;

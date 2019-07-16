@@ -1,6 +1,9 @@
 const uuid = require("uuid/v4");
 const bcrypt = require('bcrypt');
 const connection = require('../config/connection');
+const loggerService = require("./LoggingService");
+
+const logger = new loggerService("Authentication Service");
 
 function verifyUser(username,password){
     const query = "SELECT password FROM user WHERE username=?";
@@ -21,15 +24,18 @@ function verifyUser(username,password){
 }
 
 function login(req,res){
+    const action = "login";
     const username = req.body.username;
     const password = req.body.password;
     if (verifyUser(username,password)) {
+        logger.logInfo(action, "User validated");
         const sessionInformation = serializeUser(username);
         res.cookie("sid",sessionInformation[0], {
             expires: sessionInformation[1]
         })
     } else {
-        res.send("Invalid credentials")
+        logger.logError(action, "User provided invalid credentials");
+        res.send("Invalid credentials");
     }
 }
 
@@ -43,26 +49,61 @@ function serializeUser(username) {
    const expiration = new Date().getTime() + 864000000 // Expiration is the current time + 10 days from the current time
    const insertSessionQuery = "INSERT INTO sessions(username,id,expiration) values(?,?,?)";
    connection.query(insertSessionQuery, [username,newSessionId,expiration], function(err,results){
-       if(err){
-           console.log("Error");
+       if (err) {
            return err;
-       } else{
+       } else {
            console.log("Retrieved user");
-           return {id: newSessionId, expiration:expiration};
+           return {id: results.newSessionId, expiration:results.expiration};
        }
    })
 }
 
-
-function deserializeUser(){
 /* 
+Upon all requests to access content for authenticated users,
+call deserializeUser 
+
+------------------------------------------------------------
 Get the user's cookie, 
 lookup in the database their username,
+verify that their cookie has not expired,
 pass their username into the req object
 */
+
+function deserializeUser(sessionId){
+    return new Promise(function(resolve, reject){
+        console.log("Deserializing");
+        const cookieVerificationQuery = "SELECT username, expiration FROM sessions WHERE id=?";
+        connection.query(cookieVerificationQuery,[sessionId], function(err,results){
+            if (err) {
+                console.log(err);
+                return err;
+            } else {
+                console.log(results[0]);
+                const expiration = results[0].expiration;
+                const timeNow = new Date().getTime();
+                if(timeNow < expiration){
+                    resolve(results[0].username);
+                }
+                else{
+                    reject();
+                }
+            }
+        })
+    })
+}
+
+
+/*
+Delete the user's cookie from the server, 
+and then send headers to delete the cookie 
+from the client. 
+*/
+function logout(sessionId){
+
 }
 
 module.exports = {
     login: login,
-    serializeUser: serializeUser
+    serializeUser: serializeUser,
+    deserializeUser: deserializeUser
 }
