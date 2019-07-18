@@ -18,7 +18,6 @@ app.listen(3000);
 
 
 
-
 console.log("App is running");
 
 /* Temp routes */
@@ -36,51 +35,40 @@ app.get("/readCookie", function(req, res){
     res.send(req.cookies.session);
 })
 
-app.get("/success",function(req,res){
-    res.send("User logged in successfully");
-})
+/* Unauthenticated routes */
 
-app.get("/failure", function(req,res){
-    res.send("User log in fail");
-})
+app.post("/user/create", userController.createUser);
+app.post("/user/login", authenticationService.login);
+
+/* Temporarily unauthenticated routes. Move to authenticated when initial testing is complete */
+
+app.post("/admin/invite", registrationController.processRegCode);
+
+
+/* -------------------- */
 
 
 
-/* Authenticated routes */
-
-/*
-All authenticated routes need to access middleware function (deserializeUser)
-to ensure that user is authorized 
-TODO: determine best way to setup middleware function
-TODO: add permissions to user ?
-*/
+/* Authentication middleware for authenticated routes */
 
 const authorizeUser = function(req,res,next){
     const sessionId = req.cookies.session;
-    const invalidSession = res.json({status:"Invalid session"}); //TODO: redirect to login 
-
-    console.log("Authenticating");
-    if (!sessionId) {
-        return invalidSession;
-    }
 
    authenticationService.deserializeUser(sessionId).then(function(username){
-       if(!username){
-           return invalidSession;
-       }
-       res.json({status: `Identification successful for ${username}`});
+       req.user = username;
+       next();
+   }).catch(function(){
+       console.log("Identification failed");
+       res.json({status: "Invalid session id"});
    });
 }
-/* -------------------- */
-
-app.post("/user/login", authenticationService.login);
-
 
 app.use(authorizeUser);
 
+/* Authenticated routes  */
+
 app.get("/user/test", function(req,res){
-    res.json({status: "Identification succeeded"});
+    res.json({status: `Identification succeeded for ${req.user}`});
 })
-app.post("/admin/invite", registrationController.processRegCode);
-app.post("/user/create", userController.createUser);
+
 app.post("/post/create", postController.createPost);

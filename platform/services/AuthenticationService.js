@@ -2,41 +2,39 @@ const uuid = require("uuid/v4");
 const bcrypt = require('bcrypt');
 const connection = require('../config/connection');
 const loggerService = require("./LoggingService");
+const databaseService = require("./DatabaseService");
 
-const logger = new loggerService("Authentication Service");
+const log = new loggerService("Authentication Service");
+const database = new databaseService();
 
-function verifyUser(username,password){
+function verifyUser(res, username, password){
+    const action = "verify user";
     const query = "SELECT password FROM user WHERE username=?";
-    connection.query(query, [username], function(err,results,fields){
-        if(err){
-            console.log(err);
-        }
-        else{
-            const hashedPasswordBinary = results[0].password
-            const hashedPassword = hashedPasswordBinary.toString('utf8');
-            //we store our passwords in our database as binary, 
-            //so we have to use the to string method with the utf8 encoding to get it back to its string format
-            bcrypt.compare(password, hashedPassword).then(function(verified){
-                return verified;
-            })
-        }
-    })
+    database.query(query,[username]).then(function(results){
+        const hashedPasswordBinary = results.password
+        const hashedPassword = hashedPasswordBinary.toString('utf8');
+        //we store our passwords in our database as binary, 
+        //so we have to use the to string method with the utf8 encoding to get it back to its string format
+        bcrypt.compare(password, hashedPassword).then(function(verified){
+            if (verified) {
+                log.info(action, "User validated");
+                serializeUser(res, username);
+            } else {
+                log.error(action, "User provided invalid credentials");
+                res.json({status: "Invalid credentials; user would be redirected to login page"});
+            }
+        })
+        }).catch(function(error){
+            log.error(action, error);
+            res.sendStatus(500);
+        })
 }
 
 function login(req,res){
     const action = "login";
     const username = req.body.username;
     const password = req.body.password;
-    if (verifyUser(username,password)) {
-        logger.logInfo(action, "User validated");
-        const sessionInformation = serializeUser(username);
-        res.cookie("sid",sessionInformation[0], {
-            expires: sessionInformation[1]
-        })
-    } else {
-        logger.logError(action, "User provided invalid credentials");
-        res.send("Invalid credentials");
-    }
+    verifyUser(res, username, password)
 }
 
 /*
@@ -44,17 +42,17 @@ Generate unique session cookie,
 pair it with the user in a sessions table in the database,
 return cookie.
 */
-function serializeUser(username) {
+function serializeUser(res, username) {
+   const action = "serialize user";
    const newSessionId = uuid();
    const expiration = new Date().getTime() + 864000000 // Expiration is the current time + 10 days from the current time
    const insertSessionQuery = "INSERT INTO sessions(username,id,expiration) values(?,?,?)";
-   connection.query(insertSessionQuery, [username,newSessionId,expiration], function(err,results){
-       if (err) {
-           return err;
-       } else {
-           console.log("Retrieved user");
-           return {id: results.newSessionId, expiration:results.expiration};
-       }
+   database.query(insertSessionQuery, [username,newSessionId,expiration]).then(function(results){
+        res.cookie("sid", newSessionId, { expires: expiration })
+        res.json({status: "Cookie was set"});
+   }).catch(function(error){
+       log.error(action, error);
+       res.sendStatus(500);
    })
 }
 
@@ -78,14 +76,19 @@ function deserializeUser(sessionId){
                 console.log(err);
                 return err;
             } else {
-                console.log(results[0]);
+                if (results[0] == undefined){
+                    reject();
+                    return;
+                }
                 const expiration = results[0].expiration;
                 const timeNow = new Date().getTime();
                 if(timeNow < expiration){
                     resolve(results[0].username);
+                    return;
                 }
                 else{
                     reject();
+                    return;
                 }
             }
         })

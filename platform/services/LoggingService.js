@@ -15,20 +15,20 @@ class Logger {
     log(type,action,message){
         var msgOutput;
         if(type == "E"){
-            msgOutput += "ERROR |";
+            msgOutput = "ERROR | ";
         } else {
-            msgOutput += "INFO |";
+            msgOutput = "INFO | ";
         }
         msgOutput += this.module + " | action: " + action + " | message: " + message;
         console.log(msgOutput);
         return msgOutput;
     }
 
-    logError(action,message){
+    error(action,message){
         this.log("E", action, message);
     }
 
-    logInfo(action,message){
+    info(action,message){
         this.log("I", action, message);
     }
 
