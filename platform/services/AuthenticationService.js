@@ -7,6 +7,14 @@ const databaseService = require("./DatabaseService");
 const log = new loggerService("Authentication Service");
 const database = new databaseService();
 
+
+function login(req,res){
+    const action = "login";
+    const username = req.body.username;
+    const password = req.body.password;
+    verifyUser(res, username, password)
+}
+
 function verifyUser(res, username, password){
     const action = "verify user";
     const query = "SELECT password FROM user WHERE username=?";
@@ -21,7 +29,7 @@ function verifyUser(res, username, password){
                 serializeUser(res, username);
             } else {
                 log.error(action, "User provided invalid credentials");
-                res.json({status: "Invalid credentials; user would be redirected to login page"});
+                res.json({status: "Invalid credentials; user will be redirected to login page"});
             }
         })
         }).catch(function(error){
@@ -30,12 +38,6 @@ function verifyUser(res, username, password){
         })
 }
 
-function login(req,res){
-    const action = "login";
-    const username = req.body.username;
-    const password = req.body.password;
-    verifyUser(res, username, password)
-}
 
 /*
 Generate unique session cookie, 
@@ -48,7 +50,7 @@ function serializeUser(res, username) {
    const expiration = new Date().getTime() + 864000000 // Expiration is the current time + 10 days from the current time
    const insertSessionQuery = "INSERT INTO sessions(username,id,expiration) values(?,?,?)";
    database.query(insertSessionQuery, [username,newSessionId,expiration]).then(function(results){
-        res.cookie("sid", newSessionId, { expires: expiration })
+        res.cookie("sid", newSessionId, { maxAge: 864000000 })
         res.json({status: "Cookie was set"});
    }).catch(function(error){
        log.error(action, error);
@@ -101,12 +103,22 @@ Delete the user's cookie from the server,
 and then send headers to delete the cookie 
 from the client. 
 */
-function logout(sessionId){
+function logout(req, res){
+    const action = "logout user"
+    const sessionId = req.cookies.sid;
+    database.delete("sessions", `id="${sessionId}"`).then(function(){
+        log.info(action, "success");
+        res.clearCookie("sid");
+        res.json({status: "User logged out"});
+    }).catch(function(){
+        log.error(action, "fail");
+        res.sendStatus(500);
+    })
 
 }
 
 module.exports = {
     login: login,
-    serializeUser: serializeUser,
-    deserializeUser: deserializeUser
+    deserializeUser: deserializeUser,
+    logout: logout
 }

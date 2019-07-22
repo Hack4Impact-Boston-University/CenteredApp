@@ -52,7 +52,7 @@ app.post("/admin/invite", registrationController.processRegCode);
 /* Authentication middleware for authenticated routes */
 
 const authorizeUser = function(req,res,next){
-    const sessionId = req.cookies.session;
+    const sessionId = req.cookies.sid;
 
    authenticationService.deserializeUser(sessionId).then(function(username){
        req.user = username;
@@ -71,4 +71,11 @@ app.get("/user/test", function(req,res){
     res.json({status: `Identification succeeded for ${req.user}`});
 })
 
+app.get("/user/logout", authenticationService.logout);
+
+// Posts
+app.get("/post/:postID", postController.getPost);
 app.post("/post/create", postController.createPost);
+app.put("/post/:postID", postController.verifyPostOwner, postController.updatePost);
+app.put("/post/:postID/likes", postController.updateLikes);
+app.delete("/post/:postID", postController.verifyPostOwner, postController.deletePost);
